@@ -1,0 +1,12 @@
+{
+  "name": "BareWeApp",
+  "displayName": "BareWeApp",
+  "expo": {
+    "name": "BareWeApp",
+    "slug": "BareWeApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
