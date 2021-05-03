@@ -47,22 +47,27 @@ const initialState = {
                 ...state, Error:action.Error
             }
         case SET_DATA_HOURLY:
-            // console.log(action.list)
+            // console.log("HOURLY_____")
+            // action.HourlyList.forEach(  (item)=>{
+            //     console.log(item)
+            //   })
             return{
-                ...state, CityHourlyData:[...action.list] 
+                ...state, CityHourlyData:[...action.HourlyList]
             }
         case SET_LOAD:
             return{
                 ...state, load:action.Load
             }
         case SET_YESTERDAY_WEATHER:
-            console.log(action.list[0])
+                        console.log("HOURLY_____YES___________")
+
+            console.log(action.DailyListYes[0])
             return{
-                ...state, CityHourlyDataYes:[...action.list] 
+                ...state, CityHourlyDataYes:[...action.DailyListYes]
             }
         case SET_YESTERDAY_DATE:
             return{
-                ...state, YesterdayDate:action.date
+                ...state, YesterdayDate:[...action.date]
             }
           default:
             return state;

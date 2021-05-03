@@ -87,9 +87,15 @@ export default function MainBottomTabs() {
     <Tab.Navigator
       initialRouteName="MainBottom"
       shifting={true}
-      activeColor="#fff"
+      tabBarOptions={{
+        style:{
+          backgroundColor:'#fff'
+        },
+      }}
+      activeColor="black"
       labelStyle={{ fontSize: 12 }}
-      style={{ backgroundColor: '#fff', height:100 }}
+      // style={{ backgroundColor: '#fff', height:100 }}
+      barStyle={{ backgroundColor: '#ffff' }}
     >
       <Tab.Screen
         name="Cities"
@@ -110,9 +116,6 @@ export default function MainBottomTabs() {
         
               if(ActualTab =="Cities") {
                 dispatch(Cities.UpdateCityBoxes())
-                // dispatch(Cities.updateLoad(true))
-                // wait(2000).then(()=>dispatch(Cities.updateLoad(false)))
-                // setTimeout(()=>dispatch(Cities.updateLoad(false)),1000)
                 console.log("shouldRefresh")
                } 
                else{
@@ -142,8 +145,8 @@ export default function MainBottomTabs() {
         
               if(ActualTab =="Daily") {
                 dispatch(LocalWeather.getLocationHandler())
-                dispatch(LocalWeather.updateLoad(true))
-                wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
+                // dispatch(LocalWeather.updateLoad(true))
+                // wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
                 // setTimeout(()=>dispatch(Cities.updateLoad(false)),1000)
                 console.log("shouldRefresh")
                } 
@@ -173,8 +176,8 @@ export default function MainBottomTabs() {
         
               if(ActualTab =="Hourly") {
                 dispatch(LocalWeather.getLocationHandler())
-                dispatch(LocalWeather.updateLoad(true))
-                wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
+                // dispatch(LocalWeather.updateLoad(true))
+                // wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
                 // setTimeout(()=>dispatch(Cities.updateLoad(false)),1000)
                 console.log("shouldRefresh")
                } 

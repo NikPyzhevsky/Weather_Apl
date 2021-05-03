@@ -53,23 +53,25 @@ export default function DailyContainer({navigation}) {
 const LoadFile =  () =>{
   console.log( )
   Notifications.registerRemoteNotifications();
+
+  dispatch(LocalWeather.downloadFile())
   //  dispatch(LocalWeather.downloadFile())
-   try{
-    Notifications.postLocalNotification({
-      body: "File with yesterday forecast succesfully donwloaded",
-      title: "File Downloaded",
-      sound: "chime.aiff",
-      category: "SOME_CATEGORY",
-      link: "localNotificationLink",
-      // fireDate: new Date(),
-    })
-   }
-  catch (e){
-    console.log(e)
-  }
-  finally{
-    console.log("end")
-  }
+  //  try{
+  //   Notifications.postLocalNotification({
+  //     body: "File with yesterday forecast succesfully donwloaded",
+  //     title: "File Downloaded",
+  //     sound: "chime.aiff",
+  //     category: "SOME_CATEGORY",
+  //     link: "localNotificationLink",
+  //     // fireDate: new Date()+1500,
+  //   })
+  //  }
+  // catch (e){
+  //   console.log(e)
+  // }
+  // finally{
+  //   console.log("end")
+  // }
   // Notifications.postLocalNotification({
   //   body: 'Local notification!',
   //   title: 'Local Notification Title',
@@ -80,10 +82,10 @@ const LoadFile =  () =>{
 }
 
 
-const onRefresh = React.useCallback(() => {
-  dispatch(LocalWeather.getLocationHandler())
-                dispatch(LocalWeather.updateLoad(true))
-                wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
+const onRefresh = React.useCallback(async () => {
+  await dispatch(LocalWeather.getLocationHandler())
+                // dispatch(LocalWeather.updateLoad(true))
+                // wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
 }, []);
 
 const wait = (timeout) => {

@@ -58,62 +58,64 @@ const onButtonClicked = (name,temp,weather, data)=> {
 }
 }
   // dispatch(LocalWeather.verifyPermissions())
-  const verifyPermissions = async () => {
-    const result = await Location.requestForegroundPermissionsAsync();
-    if (result.status !== 'granted') {
-      Alert.alert(
-        'Insufficient permissions!',
-        'You need to grant location permissions to use this app.',
-        [{ text: 'Okay' }]
-      );
-      return false;
-    }
-    return true;
-  };
+  // const verifyPermissions = async () => {
+  //   const result = await Location.requestForegroundPermissionsAsync();
+  //   if (result.status !== 'granted') {
+  //     Alert.alert(
+  //       'Insufficient permissions!',
+  //       'You need to grant location permissions to use this app.',
+  //       [{ text: 'Okay' }]
+  //     );
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
-  const getLocationHandler = async () => {
-    const hasPermission = await verifyPermissions()
-    if (!hasPermission) {
-      dispatch(LocalWeather.setErr(true))
-      setIsFetching(false);
-      return;
-    }
-    try {
-      setIsFetching(true);
-      const location = await Location.getCurrentPositionAsync({
-        timeout: 5000
-      });
-        dispatch(LocalWeather.setPickedLocation(location.coords.latitude,location.coords.longitude))
-      // setPickedLocation({
-      //   lat: location.coords.latitude,
-      //   lng: location.coords.longitude
-      // });
-      dispatch(LocalWeather.setErr(false))
-    } catch (err) {
-      Alert.alert(
-        'Could not fetch location!',
-        'Please try again later or pick a location on the map.',
-        [{ text: 'Okay' }]
-      );
-      dispatch(LocalWeather.setErr(true))
-    }
-    setIsFetching(false);
-  };
+  // const getLocationHandler = async () => {
+  //   const hasPermission = await verifyPermissions()
+  //   if (!hasPermission) {
+  //     dispatch(LocalWeather.setErr(true))
+  //     setIsFetching(false);
+  //     return;
+  //   }
+  //   try {
+  //     setIsFetching(true);
+  //     const location = await Location.getCurrentPositionAsync({
+  //       timeout: 5000
+  //     });
+  //       dispatch(LocalWeather.setPickedLocation(location.coords.latitude,location.coords.longitude))
+  //     // setPickedLocation({
+  //     //   lat: location.coords.latitude,
+  //     //   lng: location.coords.longitude
+  //     // });
+  //     dispatch(LocalWeather.setErr(false))
+  //   } catch (err) {
+  //     Alert.alert(
+  //       'Could not fetch location!',
+  //       'Please try again later or pick a location on the map.',
+  //       [{ text: 'Okay' }]
+  //     );
+  //     dispatch(LocalWeather.setErr(true))
+  //   }
+  //   setIsFetching(false);
+  // };
   
+
+
   useEffect(()=>{
-    getLocationHandler()
+    dispatch(LocalWeather.getLocationHandler())
     // dispatch(LocalWeather.FetchCitySearch("daily"))
   },[])
 
-  useEffect(()=>{
-    dispatch(LocalWeather.FetchCityName(lat,lng))
-    dispatch(LocalWeather.FetchCitySearch(lat,lng))
-    // console.log(DailyList+"________________________________________")
-    // dispatch(LocalWeather.FetchCitySearch(lat,lng))
+  // useEffect(()=>{
+  //   // dispatch(LocalWeather.FetchCityName(lat,lng))
+  //   // dispatch(LocalWeather.FetchCitySearch(lat,lng))
+  //   // console.log(DailyList+"________________________________________")
+  //   // dispatch(LocalWeather.FetchCitySearch(lat,lng))
 
-    // console.log(Title)
+  //   // console.log(Title)
     
-  },[isFetching, load])
+  // },[isFetching, load])
   // getLocationHandler()
   // useEffect(()=>{
   //   // dispatch(LocalWeather.FetchCityName(lat,lng))
@@ -125,10 +127,13 @@ const onButtonClicked = (name,temp,weather, data)=> {
 
   const onRefresh = React.useCallback(() => {
     // setRefreshing(true);
-    getLocationHandler()
-    
+    dispatch(LocalWeather.getLocationHandler())    
   }, []);
 
+  const getLocationHandler = () => {
+    dispatch(LocalWeather.getLocationHandler())
+  }
+  
   // console.log(DailyList+"________________________")
   return (
     <SafeAreaView style={styles.droidSafeArea}>

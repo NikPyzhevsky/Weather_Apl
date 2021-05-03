@@ -70,73 +70,76 @@ const onButtonClicked = (name,temp,weather, data)=> {
     navigation.navigate('Details', {options:{title:name},title:name,temp:temp,weather:weather,date:data})
 }
 }
-  const verifyPermissions = async () => {
-    const result = await Location.requestForegroundPermissionsAsync();
-    if (result.status !== 'granted') {
-      Alert.alert(
-        'Insufficient permissions!',
-        'You need to grant location permissions to use this app.',
-        [{ text: 'Okay' }]
-      );
-      return false;
-    }
-    return true;
-  };
+  // const verifyPermissions = async () => {
+  //   const result = await Location.requestForegroundPermissionsAsync();
+  //   if (result.status !== 'granted') {
+  //     Alert.alert(
+  //       'Insufficient permissions!',
+  //       'You need to grant location permissions to use this app.',
+  //       [{ text: 'Okay' }]
+  //     );
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
 
 
-  const getLocationHandler = async () => {
-    const hasPermission = await verifyPermissions();
-    console.log("Permision"+hasPermission)
-    if (!hasPermission) {
-      dispatch(LocalWeather.setErr(true))
-      setIsFetching(false);
-      return;
-    }
-    try {
-      setIsFetching(true);
-      const location = await Location.getCurrentPositionAsync({
-        timeout: 5000
-      });
-      console.log(location.coords.latitude,location.coords.longitude)
-        dispatch(LocalWeather.setPickedLocation(location.coords.latitude,location.coords.longitude))
-      // setPickedLocation({
-      //   lat: location.coords.latitude,
-      //   lng: location.coords.longitude
-      // });
-      dispatch(LocalWeather.setErr(false))
-    } catch (err) {
-      Alert.alert(
-        'Could not fetch location!',
-        'Please try again later or pick a location on the map.',
-        [{ text: 'Okay' }]
-      );
-      dispatch(LocalWeather.setErr(true))
-    }
-    setIsFetching(false);
-  };
+  // const getLocationHandler = async () => {
+  //   const hasPermission = await verifyPermissions();
+  //   console.log("Permision"+hasPermission)
+  //   if (!hasPermission) {
+  //     dispatch(LocalWeather.setErr(true))
+  //     setIsFetching(false);
+  //     return;
+  //   }
+  //   try {
+  //     setIsFetching(true);
+  //     const location = await Location.getCurrentPositionAsync({
+  //       timeout: 5000
+  //     });
+  //     console.log(location.coords.latitude,location.coords.longitude)
+  //       dispatch(LocalWeather.setPickedLocation(location.coords.latitude,location.coords.longitude))
+  //     // setPickedLocation({
+  //     //   lat: location.coords.latitude,
+  //     //   lng: location.coords.longitude
+  //     // });
+  //     dispatch(LocalWeather.setErr(false))
+  //   } catch (err) {
+  //     Alert.alert(
+  //       'Could not fetch location!',
+  //       'Please try again later or pick a location on the map.',
+  //       [{ text: 'Okay' }]
+  //     );
+  //     dispatch(LocalWeather.setErr(true))
+  //   }
+  //   setIsFetching(false);
+  // };
   
 
 
   useEffect(()=>{
-    getLocationHandler()
+    dispatch(LocalWeather.getLocationHandler())
   },[])
 
+  const getLocationHandler = React.useCallback(() => {
+    dispatch(LocalWeather.getLocationHandler())
+  },[]);
+  
 
-
-  useEffect(()=>{
-    if(lat!=0&&lng!=0){
+  // useEffect(()=>{
+  //   if(lat!=0&&lng!=0){
       
-      dispatch(LocalWeather.FetchCityName(lat,lng))
-    dispatch(LocalWeather.FetchCitySearch(lat,lng))
-    }
-  },[isFetching, load])
+  //     dispatch(LocalWeather.FetchCityName(lat,lng))
+  //   dispatch(LocalWeather.FetchCitySearch(lat,lng))
+  //   }
+  // },[isFetching, load])
 
 
 
 
   const onRefresh = React.useCallback(() => {
-    getLocationHandler()
+    dispatch(LocalWeather.getLocationHandler())
   }, []);
 
 
@@ -163,7 +166,7 @@ const onButtonClicked = (name,temp,weather, data)=> {
     DailyList={DailyList}
     onButtonClicked={onButtonClicked}
     navigation={navigation}
-    getLocationHandler={getLocationHandler}
+    getLocationHandler={(getLocationHandler)}
     Error={Error}
     isFetching={isFetching}
     load={load}

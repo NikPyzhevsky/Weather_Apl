@@ -46,10 +46,10 @@ const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
   
-  const onRefresh = React.useCallback(() => {
-    dispatch(LocalWeather.getLocationHandler())
-                  dispatch(LocalWeather.updateLoad(true))
-                  wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
+  const onRefresh =  React.useCallback( async() => {
+    await dispatch(LocalWeather.getLocationHandler())
+                  // dispatch(LocalWeather.updateLoad(true))
+                  // wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
   }, []);
   
 

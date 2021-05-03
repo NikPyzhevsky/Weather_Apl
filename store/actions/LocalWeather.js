@@ -21,7 +21,7 @@ import * as Permissions from 'expo-permissions';
 import * as Network from 'expo-network'
 import * as FileSystem from 'expo-file-system';
 import {
-    Alert,
+    Alert, Platform,
   } from 'react-native';
 import moment from 'moment'
 // export const UPDATE_CITY = 'REMOVE_FROM_CART';
@@ -140,48 +140,7 @@ export const dayFormatter = day => {
             return day + 'th';
     }
 }
-  // export const verifyPermissions =  () => {
-  //    return async ()=>{
-  //       const result = await Permissions.askAsync(Permissions.LOCATION);
-  //       if (result.status !== 'granted') {
-  //         Alert.alert(
-  //           'Insufficient permissions!',
-  //           'You need to grant location permissions to use this app.',
-  //           [{ text: 'Okay' }]
-  //         );
-  //         return false;
-  //       }
-  //       return true;
-  //     }
-  // };
-
-  // export const getLocationHandler = () =>{
-  //     return async (dispatch) => {
-  //       const hasPermission = await dispatch(verifyPermissions());
-  //       if (!hasPermission) {
-  //         return;
-  //       }
-    
-  //       try {
-  //         dispatch(setIsFetching(true)) ;
-  //         const location = await Location.getCurrentPositionAsync({
-  //           timeout: 5000
-  //         });
-  //           dispatch(LocalWeather.setPickedLocation(location.coords.latitude,location.coords.longitude))
-  //         // setPickedLocation({
-  //         //   lat: location.coords.latitude,
-  //         //   lng: location.coords.longitude
-  //         // });
-  //       } catch (err) {
-  //         Alert.alert(
-  //           'Could not fetch location!',
-  //           'Please try again later or pick a location on the map.',
-  //           [{ text: 'Okay' }]
-  //         );
-  //       }
-  //       dispatch(setIsFetching(false));
-  //     };
-  // } 
+  
 
   export const setIsFetching = (st) => {
       return{
@@ -192,7 +151,7 @@ export const dayFormatter = day => {
   export const FetchCitySearch =  (lat,lon) =>{
 
     return  async (dispatch, getState)=>{
-        dispatch(setIsFetching(true))
+        // dispatch(setIsFetching(true))
         await axios.get(api.weather+"lat="+lat+"&lon="+lon+"&exclude=current,minutely,alerts"+"&appid="+api.key)
         .then(response => {
             // cityTemp.name = response.data.name
@@ -200,6 +159,7 @@ export const dayFormatter = day => {
             // cityTemp.temp = (response.data.main.temp-273)^ 0
             // console.log(response.data.daily)
             dispatch(setList(response.data.daily))
+            // console.log(response.data.hourly)
             dispatch(setHourly(response.data.hourly))
         }).catch((error) => {
           console.log("error", error);
@@ -208,7 +168,7 @@ export const dayFormatter = day => {
         })
         .finally(() =>{
         })
-        dispatch(setIsFetching(false))
+        // dispatch(setIsFetching(false))
     }
    
 }
@@ -219,7 +179,7 @@ export const FetchCityName =  (lat,lon) =>{
         // const lat = getState().lat
         // const lon = getState().lon
         console.log(lat+" "+lon)
-        dispatch(setIsFetching(true))
+        // dispatch(setIsFetching(true))
         await axios.get(api.base+"lat="+lat+"&lon="+lon+"&appid="+api.key)
         // await axios.get("http://api.openweathermap.org/data/2.5/weather?lat=52.4373254&lon=31.0036631&appid=ce956013a9e00a85e038ee708b911989")
         .then(response => {
@@ -233,7 +193,7 @@ export const FetchCityName =  (lat,lon) =>{
         })
         .finally(() =>{
         })
-        dispatch(setIsFetching(false))
+        // dispatch(setIsFetching(false))
     }
    
 }
@@ -255,7 +215,8 @@ const  setHourly= (List) =>{
       item.temp= (item.temp-273)^0
       item.dt =  moment(new Date(item.dt*1000)).format("LT");
     })
-  return{type:SET_DATA_HOURLY, list:List }
+  console.log(List)
+  return{type:SET_DATA_HOURLY, HourlyList:List }
 }
 
 const  setHourlyYes= (List) =>{
@@ -264,17 +225,10 @@ const  setHourlyYes= (List) =>{
       item.temp= item.temp
       item.dt =  moment(new Date(item.dt*1000)).format("LT");
     })
-  return{type:SET_YESTERDAY_WEATHER, list:List }
+  return{type:SET_YESTERDAY_WEATHER, DailyListYes:List }
 }
 
-const  setHourlyYesyerday= (List) =>{
-  List.forEach(  (item)=>{
-      item.weather[0].main = IconTrans(item.weather[0].main)
-      item.temp= item.temp
-      item.dt =  moment(new Date(item.dt*1000)).format("LT");
-    })
-  return{type:SET_YESTERDAY_WEATHER, list:List }
-}
+//
 
 const  setHourlyYesFile= (List) =>{
   List.forEach(  (item)=>{
@@ -283,7 +237,7 @@ const  setHourlyYesFile= (List) =>{
     item.dt =  moment(new Date(item.dt*1000)).format("LT");
   })
   
-  return{type:SET_YESTERDAY_WEATHER, list:List }
+  return{type:SET_YESTERDAY_WEATHER, DailyListYes:List }
 }
 
 
@@ -297,10 +251,7 @@ const getCurrentTimeFromStamp = (timestamp) => {
 const  setName= (name) =>{
   return{type:SET_NAME, name:name }
 }
-// export const  setTitle= (name) =>{
-//   let nameTit = getState().LocalWeather.name
-//   return{type:SET_TITLE, Title:nameTit+name }
-// }
+
 
 export const  setTitle= (name) =>{
  
@@ -330,58 +281,6 @@ export const updateLoad = (load) => {
 
 
 
-//   export const getYesterdayWeather = () => {
-//     return async (dispatch, getState) => {
-//         const lon = getState().LocalWeather.lng
-//         const lat = getState().LocalWeather.lat
-  
-//         const CityName = getState().LocalWeather.CityName;
-//         const currentDate = new Date();
-//         console.log(lon+""+lat+":"+CityName+"date"+currentDate)
-
-//         const filePath = FileSystem.documentDirectory + CITY_FILE_NAME;
-//         const dirInfo = await FileSystem.getInfoAsync(filePath);
-
-//         if (dirInfo.exists) {
-//             const cityWeatherStr = await FileSystem.readAsStringAsync(filePath);
-
-            
-//             const { city, date, hourly } = JSON.parse(cityWeatherStr);
-            
-//             const prevDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
-//             console.log("read"+JSON.parse(cityWeatherStr))
-//             console.log(date)
-//             console.log(prevDate.toISOString())
-//             console.log(eqDate(new Date(date), prevDate))
-//             if (CityName === city && eqDate(new Date(date), prevDate)) {
-//               setHourlyYes(hourly)
-              
-//                 return;
-//             }
-//         }
-//         const yesterdayDt = Math.floor((Date.now() - 86400000)/1000);
-//         const response = await fetch(`${api.Yesterday}lat=${lat}&lon=${lon}&dt=${yesterdayDt}&appid=${api.key}`);
-//         if (!response.ok) {
-//             throw new Error("Can't fetch weather data on loaction");
-//         }
-//         console.log('fetch');
-
-//         const { hourly } = await response.json();
-//         console.log(hourly)
-//         const prevDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
-//         FileSystem.writeAsStringAsync(filePath, JSON.stringify({
-//             date: prevDate.toISOString(),
-//             city: CityName,
-//             hourly
-//         }));
-//         console.log('write');
-//         setHourlyYes(hourly)
-//         // dispatch({
-//         //     type: SET_YESTERDAY_WEATHER,
-//         //     payload: hourly
-//         // })
-//     }
-// }
 
 
 
@@ -410,22 +309,28 @@ export const openFile = () => {
 
 export const downloadFile = () => {
   return async (dispatch, getState) => {
-	// var RNFS = require("react-native-fs");
+    if(Platform.OS==="ios")
+    {
+      dispatch(openFile())
+    }
+    else{
+      var RNFS = require("react-native-fs");
 
-	// var path = RNFS.DocumentDirectoryPath + CITY_FILE_NAME;
-	// let toFile = RNFS.DownloadDirectoryPath + CITY_FILE_NAME;
-	// console.log(path);
-	// RNFS.copyFile(path, toFile).then(
-  //   console.log("cop[y")
+	var path = RNFS.DocumentDirectoryPath + CITY_FILE_NAME;
+	let toFile = RNFS.DownloadDirectoryPath + CITY_FILE_NAME;
+	console.log(path);
+	RNFS.copyFile(path, toFile).then(
     	Notifications.postLocalNotification({
 			body: "File with yesterday forecast succesfully donwloaded",
 			title: "File Downloaded",
 			sound: "chime.aiff",
 			category: "SOME_CATEGORY",
 			link: "localNotificationLink",
-			fireDate: new Date(),
+			// fireDate: new Date(),
 		})
-	// );
+	);
+    }
+    
 }
 };
 
@@ -433,6 +338,7 @@ export const downloadFile = () => {
 export const getYesterday = (lat, lon) => {
 return async (dispatch, getState) => {
 
+  //  const [lat, lon] = getState().LocalWeather
 
  var RNFS = require('react-native-fs');
  var path = Platform.OS.toLowerCase() === 'android' ? RNFS.ExternalDirectoryPath + CITY_FILE_NAME: RNFS.DocumentDirectoryPath + CITY_FILE_NAME;
@@ -444,11 +350,12 @@ return async (dispatch, getState) => {
     let a = await RNFS.readFile(path);
     let JSONFormatted = JSON.parse(a);
     if(new Date(JSONFormatted.current.dt*1000).getDate() == new Date(Date.now() - 86400000).getDate()){
-      
+      console.log("JSON___________")
+      // console.log(JSONFormatted.hourly)
       const Hourly = JSONFormatted.hourly;
       console.log("Write"+new Date(JSONFormatted.current.dt*1000).getDate())
 
-      console.log(Hourly[0])
+      // console.log(Hourly[0])
       dispatch(setHourlyYesFile([...Hourly]))
 
     }
@@ -470,7 +377,7 @@ return async (dispatch, getState) => {
         
         const Hourly = resData.hourly;
         const loadedYesterday = [];
-
+        console.log(...Hourly)
         try{
           await RNFS.writeFile(path, JSON.stringify(resData));
           console.log('succes');  
@@ -550,24 +457,28 @@ const verifyPermissions = async () => {
 
 export const getLocationHandler =() => {
   return  async (dispatch, getState)=>{
+    dispatch(updateLoad(true))
     const hasPermission = await verifyPermissions();
     console.log(hasPermission+"_______")
   if (!hasPermission) {
     dispatch(setErr(true))
-    dispatch(setIsFetching(false));
-    // setIsFetching(false);
+    dispatch(updateLoad(false))    // setIsFetching(false);
     return;
   }
   try {
-    dispatch(setIsFetching(true));
+    // dispatch(setIsFetching(true));
     const location = await Location.getCurrentPositionAsync({
       timeout: 5000
     });
-      dispatch(setPickedLocation(location.coords.latitude,location.coords.longitude))
-    // setPickedLocation({
-    //   lat: location.coords.latitude,
-    //   lng: location.coords.longitude
-    // });
+      await dispatch(setPickedLocation(location.coords.latitude,location.coords.longitude))
+      await dispatch(FetchCitySearch(location.coords.latitude,location.coords.longitude))
+      await dispatch(FetchCityName(location.coords.latitude,location.coords.longitude))
+      //   dispatch(LocalWeather.FetchCitySearch(lat,lng))
+      // await dispatch(getYesterday(location.coords.latitude,location.coords.longitude))
+      await dispatch(setTitle(moment(new Date()).format("MMMM Do"))) 
+
+
+
     dispatch(setErr(false))
   } catch (err) {
     Alert.alert(
@@ -575,13 +486,16 @@ export const getLocationHandler =() => {
       'Please try again later or pick a location on the map.',
       [{ text: 'Okay' }]
     );
-    dispatch(setErr(true))
+    dispatch(setErr(err))
+    console.log("error___")
+    console.log(err)
   }
   finally{
-  //   dispatch(FetchCityName(getState().lat,getState().lng))
-  //  dispatch(FetchCitySearch(getState().lat,getState().lng))
+    dispatch(getYesterday(getState().LocalWeather.lat,getState().LocalWeather.lng))
+    dispatch(updateLoad(false))
+
   }
-  dispatch(setIsFetching(false));
+
   // 
   }
   
