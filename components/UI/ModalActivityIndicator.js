@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Modal, ActivityIndicator } from 'react-native';
+import { MyTheme } from '../../Theme/Theme';
 
     const ModalActivityIndicator = props => {
         const {
           show = false,
           color = "green",
-          backgroundColor = "white",
+          backgroundColor = MyTheme.colors.background,
           dimLights = 0.6,
           loadingMessage = "Doing stuff ..."
         } = props;

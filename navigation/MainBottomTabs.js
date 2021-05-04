@@ -8,13 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import CitiesContainer from '../screens/Cities/CitiesContainer';
 import DailyContainer from '../screens/Daily/DailyContainer';
 import HourlyContainer from '../screens/Hourly/HourlyContainer'
+import Chrome, { assets as chromeAssets } from "../screens/Chrome";
 // import DailyScreen from '../screens/DailyScreen';
-import HourlyScreen from '../screens/HourlyScreen';
 
 import * as Cities from '../store/actions/Cities';
 import * as LocalWeather from '../store/actions/LocalWeather';
 import { Notifications } from 'react-native-notifications';
 
+import {MyTheme} from '../Theme/Theme'
 
 
 
@@ -85,17 +86,20 @@ export default function MainBottomTabs() {
   
   return (
     <Tab.Navigator
+    detachInactiveScreens={true}
       initialRouteName="MainBottom"
       shifting={true}
       tabBarOptions={{
+        inactiveBackgroundColor:"red",
         style:{
-          backgroundColor:'#fff'
+          backgroundColor: MyTheme.colors.background
         },
       }}
-      activeColor="black"
+      activeColor= {MyTheme.colors.primary}
+      inactiveColor={MyTheme.colors.subText}
       labelStyle={{ fontSize: 12 }}
       // style={{ backgroundColor: '#fff', height:100 }}
-      barStyle={{ backgroundColor: '#ffff' }}
+      barStyle={{ backgroundColor: MyTheme.colors.background }}
     >
       <Tab.Screen
         name="Cities"
@@ -158,6 +162,39 @@ export default function MainBottomTabs() {
             },
           })
         }
+      />
+
+<Tab.Screen
+        name="ImagePicker"
+        component={Chrome}
+        options={{
+          tabBarLabel: 'Image',
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="calendar" size={26} color={color} />
+          ),
+        
+        }}
+        // listeners={
+        //   ({ navigation, route }) => ({
+        //     tabPress: e => {
+        //       // Prevent default action
+        //       // e.preventDefault();
+        
+        //       if(ActualTab =="Daily") {
+        //         dispatch(LocalWeather.getLocationHandler())
+        //         // dispatch(LocalWeather.updateLoad(true))
+        //         // wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
+        //         // setTimeout(()=>dispatch(Cities.updateLoad(false)),1000)
+        //         console.log("shouldRefresh")
+        //        } 
+        //        else{
+        //         dispatch(Cities.SetTab("Daily"))
+        //         navigation.navigate("Daily")
+        //         console.log("navigate to Daily")
+        //        }
+        //     },
+        //   })
+        // }
       />
       <Tab.Screen
         name="Hourly"

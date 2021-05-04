@@ -4,7 +4,6 @@ import {
     Alert
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import HourlyView from '../../Hourly/HourlyView';
 import * as LocalWeather from '../../../store/actions/LocalWeather';
 import {
     Dimensions,
@@ -19,6 +18,7 @@ import ModalActivityIndicator from '../../../components/UI/ModalActivityIndicato
 import moment from 'moment'
 import { FAB } from 'react-native-paper';
 import {Notifications } from 'react-native-notifications';
+import { MyTheme } from '../../../Theme/Theme';
 // import { mdiUpload } from '@mdi/js';
 
 
@@ -55,30 +55,6 @@ const LoadFile =  () =>{
   Notifications.registerRemoteNotifications();
 
   dispatch(LocalWeather.downloadFile())
-  //  dispatch(LocalWeather.downloadFile())
-  //  try{
-  //   Notifications.postLocalNotification({
-  //     body: "File with yesterday forecast succesfully donwloaded",
-  //     title: "File Downloaded",
-  //     sound: "chime.aiff",
-  //     category: "SOME_CATEGORY",
-  //     link: "localNotificationLink",
-  //     // fireDate: new Date()+1500,
-  //   })
-  //  }
-  // catch (e){
-  //   console.log(e)
-  // }
-  // finally{
-  //   console.log("end")
-  // }
-  // Notifications.postLocalNotification({
-  //   body: 'Local notification!',
-  //   title: 'Local Notification Title',
-  //   sound: 'chime.aiff',
-  //   category: 'SOME_CATEGORY',
-  //   link: 'localNotificationLink',
-  // });
 }
 
 
@@ -92,6 +68,10 @@ const wait = (timeout) => {
   // console.log(listOfCities)
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
+
+const getLocationHandler = async () => {
+  dispatch(LocalWeather.getLocationHandler())
+};
 
 const onButtonClicked = (name,temp,weather, data)=> {
   if(!ButtonClicked){
@@ -278,7 +258,7 @@ React.useEffect(() => {
           // backgroundColor:"#E5E5E5",
             flex: 1,
             paddingTop: Platform.OS === 'android' ? 30 : 0,
-            backgroundColor:"white",
+            backgroundColor:MyTheme.colors.background,
     
             // justifyContent:'center',
             // flexDirection:'column',
@@ -344,7 +324,7 @@ React.useEffect(() => {
           width:Dimensions.get('window').width*0.48,
           height:Dimensions.get('window').width*0.48,
           borderRadius: Dimensions.get('window').width*0.48 / 2,
-          backgroundColor: "#ececec",
+          backgroundColor: MyTheme.colors.border,
           // textAlign:'center',
           // textAlignVertical: "center",textAlign: "center",
           display:"flex",
@@ -363,26 +343,27 @@ React.useEffect(() => {
           display:"flex",
           alignItems:"center",
           justifyContent:'center',
+          color:MyTheme.colors.text
         },
         ErrorSubString:{
           marginTop:18,
           fontSize:15,
           marginBottom:34,
-          color:'#A4A4A4',
+          color:MyTheme.colors.subText,
         },
         ErrorButton:{
-          backgroundColor:"black",
+          backgroundColor:MyTheme.colors.border,
           width:168,
           height:48,
           borderRadius:8,
           alignItems:'center',
           justifyContent:'center',
-          color:'white',
         },
         ButtonTitle:{
-          color:'white',
+          color:MyTheme.colors.primary,
           fontSize:15
         }
+      
       
        
       });

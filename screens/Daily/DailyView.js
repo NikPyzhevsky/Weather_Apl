@@ -9,7 +9,7 @@ import CityList from '../../components/CityList';
 import IconErr from '../../components/UI/IconErr';
 // import LocationPicker from '../components/LocationPicker';
 import ModalActivityIndicator from '../../components/UI/ModalActivityIndicator';
-
+import {MyTheme} from '../../Theme/Theme'
 
 
 
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
       // backgroundColor:"#E5E5E5",
         flex: 1,
         paddingTop: Platform.OS === 'android' ? 30 : 0,
-        backgroundColor:"white",
+        backgroundColor:MyTheme.colors.background,
 
         // justifyContent:'center',
         // flexDirection:'column',
@@ -132,6 +132,8 @@ const styles = StyleSheet.create({
     },
     headerTitle:{
         fontSize:28
+,
+      color:MyTheme.colors.primary
     },
     CitiesBox:{
         flex:1,
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
       width:Dimensions.get('window').width*0.48,
       height:Dimensions.get('window').width*0.48,
       borderRadius: Dimensions.get('window').width*0.48 / 2,
-      backgroundColor: "#ececec",
+      backgroundColor: MyTheme.colors.border,
       // textAlign:'center',
       // textAlignVertical: "center",textAlign: "center",
       display:"flex",
@@ -197,24 +199,25 @@ const styles = StyleSheet.create({
       display:"flex",
       alignItems:"center",
       justifyContent:'center',
+      color:MyTheme.colors.primary
     },
     ErrorSubString:{
       marginTop:18,
       fontSize:15,
       marginBottom:34,
-      color:'#A4A4A4',
+      color:MyTheme.colors.subText,
     },
     ErrorButton:{
-      backgroundColor:"black",
+      backgroundColor:MyTheme.colors.border,
       width:168,
       height:48,
       borderRadius:8,
       alignItems:'center',
       justifyContent:'center',
-      color:'white',
+      color:MyTheme.colors.background,
     },
     ButtonTitle:{
-      color:'white',
+      color:MyTheme.colors.text,
       fontSize:15
     }
   

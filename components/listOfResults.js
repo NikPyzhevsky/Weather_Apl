@@ -2,6 +2,7 @@ import { useLinkProps } from '@react-navigation/native';
 import React from 'react'
 import {View, Text, StyleSheet, Dimensions} from 'react-native'
 import {  ScrollView } from 'react-native-gesture-handler';
+import { MyTheme } from '../Theme/Theme';
 import CityList from './CityList';
 import IconErr from './UI/IconErr'
 
@@ -89,28 +90,56 @@ export default function ListOfResults(props) {
       // marginTop: Dimensions.get('window').height*0.18,
       // backgroundColor:'orange'
     },
+    ErrorBox:{
+      flex:1,
+      alignItems:'center',
+      // justifyContent:'center',
+      // marginTop: Dimensions.get('window').height*0.18,
+      justifyContent:'center',
+      // backgroundColor:'orange'
+    },
     circle: {
-      width:200,
-      height:200,
-      borderRadius: 200 / 2,
-      backgroundColor: "#ececec",
+      width:Dimensions.get('window').width*0.48,
+      height:Dimensions.get('window').width*0.48,
+      borderRadius: Dimensions.get('window').width*0.48 / 2,
+      backgroundColor: MyTheme.colors.border,
       // textAlign:'center',
       // textAlignVertical: "center",textAlign: "center",
       display:"flex",
       alignItems:"center",
       justifyContent:'center',
-      marginBottom:40,
+      marginBottom:68,
     },
     IconErr:{
       // textAlignVertical: "center",textAlign: "center"
   //     flexDirection: 'row',
   // alignItems: 'baseline',
-
+  
     },
     ErrorTitle:{
       fontSize:24,
       display:"flex",
       alignItems:"center",
       justifyContent:'center',
+      color:MyTheme.colors.primary
+    },
+    ErrorSubString:{
+      marginTop:18,
+      fontSize:15,
+      marginBottom:34,
+      color:MyTheme.colors.subText,
+    },
+    ErrorButton:{
+      backgroundColor:MyTheme.colors.border,
+      width:168,
+      height:48,
+      borderRadius:8,
+      alignItems:'center',
+      justifyContent:'center',
+      color:MyTheme.colors.background,
+    },
+    ButtonTitle:{
+      color:MyTheme.colors.text,
+      fontSize:15
     }
   });

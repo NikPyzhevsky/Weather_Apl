@@ -1,7 +1,7 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, HeaderStyleInterpolators, TransitionSpecs } from '@react-navigation/stack';
 import React from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 // import LocationPicker from './screens/components/LocationPicker';
 import { Provider, useDispatch } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -49,6 +49,17 @@ export default function App() {
   
   
   const MyTransition = {
+      ...DefaultTheme,
+      colors: {
+        ...DefaultTheme.colors,
+        background: MyTheme.colors.background,
+        primary:  MyTheme.colors.primary,
+        card: MyTheme.colors.card,
+        text: MyTheme.colors.text,
+        border: MyTheme.colors.border,
+        notification: MyTheme.colors.notification,
+      },
+
     gestureDirection: 'horizontal',
     gestureResponseDistance: {
       horizontal: Dimensions.get('window').width
@@ -78,7 +89,7 @@ export default function App() {
               scale: next
                 ? next.progress.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [1, 0.9],
+                    outputRange: [1, 1],
                   })
                 : 1,
             },
@@ -98,15 +109,23 @@ export default function App() {
 
 
   return (
-      <Provider store={store}>
-      <NavigationContainer theme={MyTheme}>
+      
+        <Provider store={store}>
+          
+      <NavigationContainer theme={MyTheme} transitionerStyle={{backgroundColor: 'black'}}>
+     
         <Stack.Navigator
+        
+          detachInactiveScreens={true}
           screenOptions={{
+            headerTransparent: true,
             cardOverlayEnabled: true,
             gestureEnabled: true,
+            headerStyle:{backgroundColor:MyTheme.colors.background},
             // gestureDirection: "inverted",
             ...MyTransition,
           }}
+          
           
         >
         <Stack.Screen name="Home" component={MyTabs} options={{headerShown:null}}/>
@@ -114,8 +133,9 @@ export default function App() {
         {/* <Stack.Screen name="Cities" component={CitiesScreen}/> */}
       </Stack.Navigator>
     </NavigationContainer>
-
+    
     </Provider>
+      
     
     
   );

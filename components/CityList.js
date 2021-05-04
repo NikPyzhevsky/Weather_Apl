@@ -4,6 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { TouchableNativeFeedback, TouchableOpacity } from 'react-native-gesture-handler';
 
+import {MyTheme} from '../Theme/Theme'
 
 
 
@@ -20,10 +21,10 @@ export default function CityList(props){
             <View style={styles.item}>
             <View style={styles.TextInfo}>
                 <Text style={styles.title}>{props.name}</Text>
-                <Text>{props.temp>0?"+"+props.temp:props.temp}C</Text>
+                <Text style={styles.temp}>{props.temp>0?"+"+props.temp:props.temp}C</Text>
             </View>
             <View style={styles.Icon}>
-                <Feather style={styles.CityIcon} name={props.weather} size={38} color="black" />
+                <Feather style={styles.CityIcon} name={props.weather} size={38} color={MyTheme.colors.primary}/>
                 {/* <Button
                     title="Go to Details"
                     onPress={() => }
@@ -57,15 +58,20 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 20,
       marginBottom:10,
+      color:MyTheme.colors.text
     },
     TextInfo:{
         flexDirection:'column',
         // justifyContent:'space-between',
         // backgroundColor:'red',
+        color:MyTheme.colors.text
     },
     Icon:{
         // backgroundColor:"yellow",
         // flex:1,
         marginTop:10
+    },
+    temp:{
+        color:MyTheme.colors.subText
     }
   });

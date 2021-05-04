@@ -13,6 +13,7 @@ import ModalActivityIndicator from '../../../components/UI/ModalActivityIndicato
 import * as LocalWeather from '../../../store/actions/LocalWeather';
 
 import WalletCard from "../../../components/UI/card";
+import { MyTheme } from '../../../Theme/Theme';
 
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
@@ -53,7 +54,9 @@ const wait = (timeout) => {
   }, []);
   
 
-
+  const getLocationHandler = async () => {
+    dispatch(LocalWeather.getLocationHandler())
+  };
 
 const onButtonClicked = (name,temp,weather, data)=> {
   if(!ButtonClicked){
@@ -167,7 +170,7 @@ React.useEffect(() => {
           // backgroundColor:"#E5E5E5",
             flex: 1,
             paddingTop: Platform.OS === 'android' ? 30 : 0,
-            backgroundColor:"white",
+            backgroundColor:MyTheme.colors.background,
     
             // justifyContent:'center',
             // flexDirection:'column',
@@ -227,7 +230,7 @@ React.useEffect(() => {
           width:Dimensions.get('window').width*0.48,
           height:Dimensions.get('window').width*0.48,
           borderRadius: Dimensions.get('window').width*0.48 / 2,
-          backgroundColor: "#ececec",
+          backgroundColor: MyTheme.colors.border,
           // textAlign:'center',
           // textAlignVertical: "center",textAlign: "center",
           display:"flex",
@@ -246,24 +249,24 @@ React.useEffect(() => {
           display:"flex",
           alignItems:"center",
           justifyContent:'center',
+          color:MyTheme.colors.text
         },
         ErrorSubString:{
           marginTop:18,
           fontSize:15,
           marginBottom:34,
-          color:'#A4A4A4',
+          color:MyTheme.colors.subText,
         },
         ErrorButton:{
-          backgroundColor:"black",
+          backgroundColor:MyTheme.colors.border,
           width:168,
           height:48,
           borderRadius:8,
           alignItems:'center',
           justifyContent:'center',
-          color:'white',
         },
         ButtonTitle:{
-          color:'white',
+          color:MyTheme.colors.primary,
           fontSize:15
         }
       

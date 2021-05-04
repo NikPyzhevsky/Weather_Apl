@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { SafeAreaView, StyleSheet, Text, View,Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import {} from "moment"
-
+import { MyTheme } from "../Theme/Theme"
 
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
@@ -24,20 +24,22 @@ export default function DetailsScreen({route, navigation}) {
   // let data = new Date()
     let {title,temp,weather,date} = route.params
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,        backgroundColor:"white",    }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,        backgroundColor:MyTheme.colors.background,    }}>
         <Text style={{
           fontSize:Dimensions.get('window').height*0.03,
           textAlign:'center',
           width:Dimensions.get('window').width*0.33,
+          color:MyTheme.colors.text 
           }} >
             {date}
           </Text> 
-          <Feather style={styles.CityIcon} name={weather} size={Dimensions.get('window').height*0.138} color="black" />
+          <Feather style={styles.CityIcon} name={weather} size={Dimensions.get('window').height*0.138} color={MyTheme.colors.primary}/>
           <Text style={{
             fontSize:Dimensions.get('window').height*0.03,
             marginTop:Dimensions.get('window').height*0.0058,
             // borderWidth:2,
-            textAlign:'center'
+            textAlign:'center',
+            color:MyTheme.colors.subText
           }}>
             {temp>0?"+"+temp:temp}C
           </Text>
@@ -58,7 +60,7 @@ export default function DetailsScreen({route, navigation}) {
 const styles = StyleSheet.create({
     container: {
       // backgroundColor:"#E5E5E5",
-      backgroundColor:"white",
+      backgroundColor: MyTheme.colors.background,
 
         flex: 1,
         alignContent:'center',

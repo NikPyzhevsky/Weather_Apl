@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import HourlyView from '../Hourly/HourlyView';
 import * as LocalWeather from '../../store/actions/LocalWeather';
 
 import Main from './Components/Main'
@@ -19,6 +18,7 @@ import ModalActivityIndicator from '../../components/UI/ModalActivityIndicator';
 import moment, { deprecationHandler } from 'moment'
 import DetailScreen from "../DetailScreen"
 import { createStackNavigator } from '@react-navigation/stack';
+import { MyTheme } from '../../Theme/Theme';
 
 
 
@@ -113,7 +113,7 @@ const onButtonClicked = (name,temp,weather, data)=> {
   <SafeAreaView style={{
     flex: 1,
     // paddingTop: Platform.OS === 'android' ? 0 : 0,
-    backgroundColor:"white",
+    backgroundColor:MyTheme.colors.backgroundColor,
     }}>
         <ModalActivityIndicator show={isFetching||load} />
 
@@ -131,11 +131,14 @@ const onButtonClicked = (name,temp,weather, data)=> {
 
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: "white",
+        // activeTintColor: MyTheme.colors.primary,
         labelStyle: {
             textTransform: "uppercase",
+            // color:MyTheme.colors.backgroundColor,
+            
         },
-        inactiveTintColor: "grey",
+        inactiveTintColor: MyTheme.colors.border,
+        // activeTintColor: MyTheme.colors.primary,
         indicatorStyle: {
             height: null,
             top: '10%',
@@ -143,14 +146,14 @@ const onButtonClicked = (name,temp,weather, data)=> {
             width: '45%',
             left: '2.5%',
             borderRadius: 100,
-            backgroundColor: "black",
+            backgroundColor: MyTheme.colors.border,
         },
         style: {
             alignSelf: "center",
             width: '55%',
             borderRadius: 100,
             borderColor: "blue",
-            backgroundColor: "white",
+            backgroundColor: MyTheme.colors.primary,
             elevation: 5, // shadow on Android
             shadowOpacity: .10, // shadow on iOS,
             shadowRadius: 4, // shadow blur on iOS
@@ -187,7 +190,7 @@ const styles = StyleSheet.create({
     // backgroundColor:"#E5E5E5",
       flex: 1,
       paddingTop: Platform.OS === 'android' ? 30 : 0,
-      backgroundColor:"white",
+      backgroundColor:MyTheme.colors.background,
 
       // justifyContent:'center',
       // flexDirection:'column',
@@ -200,7 +203,8 @@ const styles = StyleSheet.create({
     paddingLeft: Dimensions.get('window').width*0.064,
   },
   headerTitle:{
-      fontSize:28
+      fontSize:28,
+      color:MyTheme.colors.primary
   },
   CitiesBox:{
       flex:1,

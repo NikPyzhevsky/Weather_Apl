@@ -5,7 +5,7 @@ const initialState = {
     lng:0,
     CityData:[],
     isFetching:false,
-    CityName:"",
+    CityName:"Not Found",
     Error:false,
     CityHourlyData:[],
     CityHourlyDataYes:[],

@@ -5,6 +5,7 @@ import ListOfResults from '../../components/listOfResults';
 import Input from '../../components/UI/Input';
 import ModalActivityIndicator from '../../components/UI/ModalActivityIndicator';
 import { useRef } from 'react';
+import { MyTheme } from "../../Theme/Theme";
 
 
 
@@ -44,7 +45,7 @@ export default function CitiesContainer(props) {
     return(
       <SafeAreaView style={styles.droidSafeArea}>
       <View style={styles.ActivityIndicator}>
-        <ActivityIndicator  size="large" color="black" />
+        <ActivityIndicator  size="large" color={MyTheme.colors.primary} />
       </View>
       </SafeAreaView>
     )
@@ -90,8 +91,8 @@ const styles = StyleSheet.create({
     droidSafeArea: {
         flex: 1,
         paddingTop: Platform.OS === 'android' ? 30 : 0,
-        justifyContent:'center',
-        backgroundColor:"white",
+        // justifyContent:'center',
+        backgroundColor:MyTheme.colors.background,
     },
     input:{
         fontSize:20
