@@ -7,6 +7,7 @@ import Animated, {
 
 import Item from "./Item";
 import { COL, Positions, SIZE } from "./Config";
+import { Dimensions } from "react-native";
 
 // interface ListProps {
 //   children: ReactElement<{ id: string }>[];
@@ -34,7 +35,8 @@ const List = ({ children, editing, onDragEnd }) => {
       onScroll={onScroll}
       ref={scrollView}
       contentContainerStyle={{
-        height: Math.ceil(children.length / COL) * SIZE,
+        // height: Math.ceil(children.length / COL) * SIZE,
+        height: Dimensions.get('window').height,
       }}
       showsVerticalScrollIndicator={false}
       bounces={false}
