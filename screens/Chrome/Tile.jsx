@@ -6,7 +6,7 @@ import { MyTheme } from "../../Theme/Theme";
 import { MARGIN, SIZE } from "./Config";
 
 const styles = StyleSheet.create({
-  container: { width: SIZE, height: SIZE,borderRadius: SIZE/2, backgroundColor:MyTheme.colors.primary},
+  container: { width: SIZE, height: SIZE,borderRadius: SIZE/2, backgroundColor:MyTheme.colors.border},
   image: {
     ...StyleSheet.absoluteFillObject,
     width: undefined,

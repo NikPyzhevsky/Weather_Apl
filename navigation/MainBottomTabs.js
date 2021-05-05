@@ -9,6 +9,7 @@ import CitiesContainer from '../screens/Cities/CitiesContainer';
 import DailyContainer from '../screens/Daily/DailyContainer';
 import HourlyContainer from '../screens/Hourly/HourlyContainer'
 import Chrome, { assets as chromeAssets } from "../screens/Chrome";
+import Carousel from "../screens/Settings/Settings"
 // import DailyScreen from '../screens/DailyScreen';
 
 import * as Cities from '../store/actions/Cities';
@@ -166,7 +167,7 @@ export default function MainBottomTabs() {
 
 <Tab.Screen
         name="ImagePicker"
-        component={Chrome}
+        component={Carousel}
         options={{
           tabBarLabel: 'Image',
           tabBarIcon: ({ color }) => (

@@ -8,10 +8,13 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 
 import Cities from './store/reducers/Cities';
+import LocalWeather from './store/reducers/LocalWeather';
+import ImagePick from "./store/reducers/ImagePick"
+
 
 import MyTabs from './navigation/MainBottomTabs';
 import DetailsScreen, { screenOptions } from './screens/DetailScreen';
-import LocalWeather from './store/reducers/LocalWeather';
+
 import { MyTheme } from './Theme/Theme';
 import ReduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -24,6 +27,7 @@ const Stack = createStackNavigator();
 const rootReducer = combineReducers({
   Cities: Cities,
   LocalWeather: LocalWeather,
+  ImagePicker: ImagePick,
 });
 
 const store = createStore(
