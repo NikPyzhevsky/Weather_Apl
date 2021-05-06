@@ -186,12 +186,13 @@ React.useEffect(() => {
             style={{flex:1}}>
     
             {DailyList.length>0? DailyList.map((item, key)=>{
+              
                             return(
                               
                                 <CityList 
                               onButtonClicked={onButtonClicked}
                                 name={item.dt} 
-                                key={key}
+                                key={key+item.dt}
                                 title={Title}
                                 // loadWeather={props.LoadWeather}
                                 temp={item.temp}

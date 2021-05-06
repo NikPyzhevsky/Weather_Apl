@@ -65,8 +65,14 @@ const Carousel = () => {
     const images = useSelector(state=> state.ImagePicker.tiles)
 
 
+    const readConf = () =>{
+      dispatch(ImagePick.readConfiguration())
+    }
+
     useEffect(() => {
-        // dispatch(ImagePicker.ReadConfiguration())
+    
+      // dispatch(LocalWeather.getLocationHandler())
+      // dispatch(ImagePick.addImage("https://art.pixilart.com/05b69d5a1d184f9.gif"));
         (async () => {
           if (Platform.OS !== 'web') {
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -81,6 +87,8 @@ const Carousel = () => {
               }
           }
         })();
+
+        readConf()
       }, []);
 
     const ButtonHandler = (action) => {
@@ -113,14 +121,10 @@ const Carousel = () => {
 
     if (!result.cancelled) {
       dispatch(ImagePick.addImage(result.uri));
-    //   const temp = images
-    // temp.push({})
-    // setImages([...temp])
+   
     }
-    // tiles.push(tiles[0])
-    
-    // console.log([...temp])
-    //   dispatch(ImagePick.addImage('https://art.pixilart.com/thumb/526413cb2e0953d.png'));
+
+      // dispatch(ImagePick.addImage('https://art.pixilart.com/thumb/526413cb2e0953d.png'));
 
   };
 

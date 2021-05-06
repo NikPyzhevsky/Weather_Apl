@@ -1,4 +1,10 @@
+import { Platform } from 'react-native'
+import RNFS from 'react-native-fs'
+
+
 export const ADD_IMAGE = 'ADD_IMAGE'
+export const LOAD_CONFIG = 'LOAD_CONFIG'
+
 
 const CITY_FILE_NAME = '/Data.json'
 
@@ -16,13 +22,27 @@ const PickImage = (uri) =>{
   return{type:ADD_IMAGE, Uri:uri }
 }
 
-export const ReadConfiguration = () => {
-  return async (dispatch, getState) => {
-    var RNFS = require('react-native-fs');
-    var path = Platform.OS.toLowerCase() === 'android' ? RNFS.ExternalDirectoryPath + CITY_FILE_NAME: RNFS.DocumentDirectoryPath + CITY_FILE_NAME;
+const loadConfig = (Data) =>{
+  return{type:LOAD_CONFIG, tiles:Data }
+}
 
-    let a = await FileSystem.readAsStringAsync(FileSystem.documentDirectory+CITY_FILE_NAME);
+export const readConfiguration =  () => {
+  return async (dispatch, getState) => {
+    const path = Platform.OS.toLowerCase() === 'android' ? RNFS.ExternalDirectoryPath + CITY_FILE_NAME: RNFS.DocumentDirectoryPath + CITY_FILE_NAME;
+
+    // const a = await RNFS.readFile(path);
+    
+    const a = await RNFS.readFile(path);
     console.log(a)
+
+    const JSONFormatted= JSON.parse(a)
+    console.log(JSONFormatted.saveConfig)
+    // const cityWeatherStr = await FileSystem.readAsStringAsync(filePath);
+
+            
+    // const { city, date, hourly } = JSON.parse(cityWeatherStr);
+
+    dispatch(loadConfig(JSONFormatted.saveConfig))
     // console.log(lol)
 
   }
@@ -106,7 +126,7 @@ export const ReadConfiguration = () => {
       // console.log("________________________________________________________________")
       // dispatch(setHourlyYes([...Hourly]))
       try{
-        await RNFS.writeFile(path, JSON.stringify(saveConfig));
+        await RNFS.writeFile(path, JSON.stringify({saveConfig}));
         let a = await RNFS.readFile(path);
         // let a = await FileSystem.readAsStringAsync(FileSystem.documentDirectory+'data.json');
        

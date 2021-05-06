@@ -36,17 +36,12 @@ export default function DailyContainer({navigation}) {
   // 
 
   const [isFetching, setIsFetching] = useState(false);
-  // const [pickedLocation, setPickedLocation] = useState(null);
-  const lat = useSelector(state=> state.LocalWeather.lat)
-  const lng = useSelector(state=> state.LocalWeather.lng)
+
+
   const Title = useSelector(state=> state.LocalWeather.Title)
-  const name = useSelector(state=> state.LocalWeather.CityName)
-  const DailyList = useSelector(state=> state.LocalWeather.CityHourlyData)
-  const Error = useSelector(state=> state.LocalWeather.Error)
-  // const isFetching = useSelector(state=> state.LocalWeather.isFetching)
+ 
 
   const [ButtonClicked,setActive] = useState(false)
-  const [refreshing, setRefreshing] = React.useState(false);
 
 
   const [dimensions, setDimensions] = useState({ window });
@@ -59,55 +54,18 @@ export default function DailyContainer({navigation}) {
     Dimensions.addEventListener("change", onChange);
     return () => {
       Dimensions.removeEventListener("change", onChange);
-    };
+    }
   });
 
 
-
-const onButtonClicked = (name,temp,weather, data)=> {
-  if(!ButtonClicked){
-    setActive(true)
-    setTimeout(()=>{setActive(false)}, 1000)
-    // console.log(data+"______________________________________")
-    navigation.navigate('Details', {options:{title:name},title:name,temp:temp,weather:weather,date:data})
-}
-}
-
-// const getLocationHandler = React.useCallback(() => {
-//   dispatch(LocalWeather.getLocationHandler())
-// },[]);
-  
   useEffect( async ()=>{
 
-      dispatch(LocalWeather.getLocationHandler())    
-          //  await dispatch(LocalWeather.getYesterday(lat,lng))
+      await dispatch(LocalWeather.getLocationHandler())    
+
 
   },[])
 
 
-  const onRefresh = React.useCallback(() => {
-    // setRefreshing(true);
-    dispatch(LocalWeather.getLocationHandler())    
-  }, []);
-
-  // useEffect(()=>{
-  //   if(lat!=0&&lng!=0){
-      
-  //     dispatch(LocalWeather.FetchCityName(lat,lng))
-  //   dispatch(LocalWeather.FetchCitySearch(lat,lng))
-  //   dispatch(LocalWeather.getYesterday(lat,lng))
-  //   setTimeout(()=>{dispatch(LocalWeather.setTitle(moment(new Date()).format("MMMM Do")))},100) 
-  //   }
-  // },[isFetching, load])
-
-
-
-
-  // const onRefresh = React.useCallback(() => {
-  //   getLocationHandler()
-  // }, []);
-
-  
   return (
 
   <SafeAreaView style={{

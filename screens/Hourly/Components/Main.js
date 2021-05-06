@@ -109,13 +109,14 @@ React.useEffect(() => {
                     data={DailyList}
                     keyExtractor={itemData => itemData.index}
                     renderItem={itemData => { 
-                      console.log(itemData)
+                      // console.log("itemData FROM CONSOLE______________________________________")
+                      // console.log(itemData)
                       return(
                         <CityList 
                           onButtonClicked={onButtonClicked}
                           name={itemData.item.dt} 
                           title={Title}
-                          key={itemData.index}
+                          key={itemData.index+itemData.item.dt}
                           temp={itemData.item.temp}
                           weather={itemData.item.weather[0].main}
                           navigation={navigation}
