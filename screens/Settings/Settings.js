@@ -53,17 +53,14 @@ const actions = [
   ];
 
 
-const {width, height} = Dimensions.get('screen');
-
+const window = Dimensions.get("window");
+const width =  Dimensions.get("window").width> Dimensions.get("window").height?  Dimensions.get("window").height: Dimensions.get("window").width
 const Carousel = () => {
 
-//   const [FabIsVisible,setFabVisible] = useState(false)  
   const xScroll = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch()
-// const [images,setImages] = useState(image)
-
+  
     const images = useSelector(state=> state.ImagePicker.tiles)
-
 
     const readConf = () =>{
       dispatch(ImagePick.readConfiguration())
@@ -153,9 +150,24 @@ const Carousel = () => {
           const translateX = xScroll.interpolate({inputRange, outputRange});
 
           return (
-            <View style={style.imageContainer}>
+            <View style={{...style.imageContainer},{
+                    width:width, 
+                    height:  width - 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    // borderColor:"red",
+                    // borderWidth:2,
+                  }
+              }>
               <Animated.Image
-                style={[style.image, {transform: [{rotateZ: translateX}]}]}
+                style={[{...style.image},
+                  {
+                  
+                  height: width - 150,
+                  width: width - 150,
+                  borderRadius: width/2,
+                  },
+                   {transform: [{rotateZ: translateX}]}]}
                 source={{uri: item.uri}}
               />
             </View>
@@ -182,15 +194,12 @@ const style = StyleSheet.create({
   },
   flatList: {flexGrow: 0},
   imageContainer: {
-    width,
-    height:  width - 150,
+    
     alignItems: 'center',
     justifyContent: 'center',
   },
   image: {
-    height: width - 150,
-    width: width - 150,
-    borderRadius: width/2,
+    
     resizeMode: 'cover',
   },
   fab: {
