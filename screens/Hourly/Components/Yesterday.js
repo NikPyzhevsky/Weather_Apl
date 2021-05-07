@@ -60,14 +60,12 @@ const LoadFile =  () =>{
 
 const onRefresh = React.useCallback(async () => {
   await dispatch(LocalWeather.getLocationHandler())
-                // dispatch(LocalWeather.updateLoad(true))
-                // wait(200).then(()=>dispatch(LocalWeather.updateLoad(false)))
 }, []);
 
-const wait = (timeout) => {
-  // console.log(listOfCities)
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
+// const wait = (timeout) => {
+//   // console.log(listOfCities)
+//   return new Promise(resolve => setTimeout(resolve, timeout));
+// }
 
 const getLocationHandler = async () => {
   dispatch(LocalWeather.getLocationHandler())

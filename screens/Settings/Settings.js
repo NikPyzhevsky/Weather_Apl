@@ -38,28 +38,25 @@ const actions = [
       textColor: MyTheme.colors.text,
       textBackground: MyTheme.colors.border,
     },
-    // {
-    //   text: "Location",
-    //   icon: require("./images/ic_room_white.png"),
-    //   name: "bt_room",
-    //   position: 3
-    // },
-    // {
-    //   text: "Video",
-    //   icon: require("./images/ic_videocam_white.png"),
-    //   name: "bt_videocam",
-    //   position: 4
-    // }
+    {
+      text: "Change Color",
+      icon: require("./Icons/gallery.png"),
+      color:MyTheme.colors.border,
+      name: "bt_color_change",
+      position: 3,
+      textColor: MyTheme.colors.text,
+      textBackground: MyTheme.colors.border,
+    },
   ];
 
 
 const window = Dimensions.get("window");
-const width =  Dimensions.get("window").width> Dimensions.get("window").height?  Dimensions.get("window").height: Dimensions.get("window").width
+const width =  window.width> window.height?  window.height: window.width
 const Carousel = () => {
 
   const xScroll = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch()
-  
+
     const images = useSelector(state=> state.ImagePicker.tiles)
 
     const readConf = () =>{
@@ -101,9 +98,16 @@ const Carousel = () => {
             case "bt_galley_load":
                 pickImage()
             return
+            case "bt_color_change":
+                changeColor()
+            return
 
             default: return
         }
+    }
+
+    const changeColor = () => {
+      MyTheme.colors.primary = "blue"
     }
 
     const pickImage = async () => {
@@ -128,7 +132,7 @@ const Carousel = () => {
   return (
     <View style={style.container}>
       <Animated.FlatList
-        style={style.flatList}
+        style={{...style.flatList}}
         data={images}
         horizontal
         showsHorizontalScrollIndicator={false}

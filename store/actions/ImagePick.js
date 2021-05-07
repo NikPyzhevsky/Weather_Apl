@@ -18,31 +18,21 @@ export const addImage = (uri) =>{
     
   }
 
-const PickImage = (uri) =>{
-  return{type:ADD_IMAGE, Uri:uri }
-}
 
-const loadConfig = (Data) =>{
-  return{type:LOAD_CONFIG, tiles:Data }
-}
 
 export const readConfiguration =  () => {
   return async (dispatch, getState) => {
     const path = Platform.OS.toLowerCase() === 'android' ? RNFS.ExternalDirectoryPath + CITY_FILE_NAME: RNFS.DocumentDirectoryPath + CITY_FILE_NAME;
 
     const exists =  await RNFS.exists(path);
+
     if(exists){
 
       const a = await RNFS.readFile(path);
       const JSONFormatted= JSON.parse(a)
-  
-     
-  
+
       dispatch(loadConfig(JSONFormatted.saveConfig))
     }    
-
-   
-
 
   }
 }
@@ -57,6 +47,10 @@ export const readConfiguration =  () => {
       var path = Platform.OS.toLowerCase() === 'android' ? RNFS.ExternalDirectoryPath + CITY_FILE_NAME: RNFS.DocumentDirectoryPath + CITY_FILE_NAME;
       
       try{
+        const exists =  await RNFS.exists(path);
+          if(exists){
+            RNFS.unlink(path)
+          }    
         await RNFS.writeFile(path, JSON.stringify({saveConfig}));
         let a = await RNFS.readFile(path);
 
@@ -69,3 +63,12 @@ export const readConfiguration =  () => {
 
     }
   
+
+
+    const PickImage = (uri) =>{
+      return{type:ADD_IMAGE, Uri:uri }
+    }
+    
+    const loadConfig = (Data) =>{
+      return{type:LOAD_CONFIG, tiles:Data }
+    }
