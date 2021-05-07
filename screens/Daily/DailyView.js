@@ -78,12 +78,18 @@ return(
            </View>
         :
         <View style={styles.ErrorBox}>
-        <View style={styles.circle} >
-         <IconErr 
-           height={Dimensions.get('window').width*0.14}
-           width={Dimensions.get('window').width*0.14}
-           style ={styles.IconErr}
-         />
+        <View style={{
+           ...styles.circle,
+           width:Dimensions.get('window').height*0.25 ,
+           height:Dimensions.get('window').height*0.25,
+           borderRadius: Dimensions.get('window').height*0.25 / 2,
+           marginBottom: Dimensions.get('window').height*0.05
+         }} >
+          <IconErr 
+            height={Dimensions.get('window').height*0.15}
+            width={Dimensions.get('window').height*0.15}
+            style ={styles.IconErr}
+          />
         </View>
         <View style={styles.ErrorTitle}>
             <Text style={styles.ErrorTitle}>Data is no avaliable</Text>
@@ -186,7 +192,7 @@ const styles = StyleSheet.create({
       display:"flex",
       alignItems:"center",
       justifyContent:'center',
-      marginBottom:68,
+      // marginBottom:68,
     },
     IconErr:{
       // textAlignVertical: "center",textAlign: "center"
@@ -202,9 +208,9 @@ const styles = StyleSheet.create({
       color:MyTheme.colors.primary
     },
     ErrorSubString:{
-      marginTop:18,
+      // marginTop:18,
       fontSize:15,
-      marginBottom:34,
+      marginBottom:17 ,
       color:MyTheme.colors.subText,
     },
     ErrorButton:{
