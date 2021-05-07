@@ -1,6 +1,5 @@
-import React, {FunctionComponent, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef} from 'react';
 import {
-  FlatList,
   View,
   StyleSheet,
   Dimensions,
@@ -12,11 +11,9 @@ import * as ImagePicker from 'expo-image-picker';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { MyTheme } from '../../Theme/Theme';
-import { FAB } from 'react-native-paper';
 import { FloatingAction } from "react-native-floating-action";
 import * as ImagePick from '../../store/actions/ImagePick';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import { Icon } from 'react-native-elements';
+
 
 const actions = [
     {
@@ -131,8 +128,16 @@ const Carousel = () => {
 
   return (
     <View style={style.container}>
+
       <Animated.FlatList
-        style={{...style.flatList}}
+        style={{...style.flatList}
+        // ,{
+        //   // borderColor:"yellow",
+        //   // borderWidth:2,
+        //   // justifyContent:"center"
+        //   lexGrow: 0
+        //   }
+        }
         data={images}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -159,8 +164,8 @@ const Carousel = () => {
                     height:  width - 150,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    // borderColor:"red",
-                    // borderWidth:2,
+                    borderColor:"red",
+                    borderWidth:2,
                   }
               }>
               <Animated.Image
@@ -171,21 +176,33 @@ const Carousel = () => {
                   width: width - 150,
                   borderRadius: width/2,
                   },
-                   {transform: [{rotateZ: translateX}]}]}
+                   {transform: [{rotateZ: translateX},
+                    // {
+                    //   scale: xScroll.interpolate({
+                    //     inputRange: [0.5, 1],
+                    //     outputRange: [1, 1],
+                    //   })
+                      
+                    // },
+                  ]
+                   
+                  }]
+                }
                 source={{uri: item.uri}}
               />
             </View>
           );
         }}
       />
+
       <FloatingAction
-    actions={actions}
-    color={MyTheme.colors.border}
-    onPressItem={name => {
-        ButtonHandler(name);
-    //   console.log(`selected button: ${name}`);
-    }}
-  />
+        actions={actions}
+        color={MyTheme.colors.border}
+        onPressItem={name => {
+            ButtonHandler(name);
+        //   console.log(`selected button: ${name}`);
+        }}
+      />
     </View>
   );
 };

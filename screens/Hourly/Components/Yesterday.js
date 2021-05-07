@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert
+    Alert, FlatList
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import * as LocalWeather from '../../../store/actions/LocalWeather';
@@ -19,11 +19,22 @@ import moment from 'moment'
 import { FAB } from 'react-native-paper';
 import {Notifications } from 'react-native-notifications';
 import { MyTheme } from '../../../Theme/Theme';
+import { FloatingAction } from 'react-native-floating-action';
 // import { mdiUpload } from '@mdi/js';
 
 
 
-
+const actions = [
+  {
+    text: "Download and open file",
+    icon: require("../Icons/open-file.png"),
+    color:MyTheme.colors.border,
+    name: "bt_load_file",
+    position: 1,
+    textColor: MyTheme.colors.text,
+    textBackground: MyTheme.colors.border,
+  },
+];
 
 
 export default function DailyContainer({navigation}) {
@@ -34,15 +45,11 @@ export default function DailyContainer({navigation}) {
 
   const [isFetching, setIsFetching] = useState(false);
   // const [pickedLocation, setPickedLocation] = useState(null);
-  const lat = useSelector(state=> state.LocalWeather.lat)
-  const lng = useSelector(state=> state.LocalWeather.lng)
   const Title = useSelector(state=> state.LocalWeather.Title)
   const Name = useSelector(state=> state.LocalWeather.CityName)
   const DailyList = useSelector(state=> state.LocalWeather.CityHourlyDataYes)
   const Error = useSelector(state=> state.LocalWeather.Error)
-  const YesterdayDate = useSelector(state=> state.LocalWeather.YesterdayDate)
 
-  // const isFetching = useSelector(state=> state.LocalWeather.isFetching)
 
   const [ButtonClicked,setActive] = useState(false)
   const [refreshing, setRefreshing] = React.useState(false);
@@ -62,10 +69,6 @@ const onRefresh = React.useCallback(async () => {
   await dispatch(LocalWeather.getLocationHandler())
 }, []);
 
-// const wait = (timeout) => {
-//   // console.log(listOfCities)
-//   return new Promise(resolve => setTimeout(resolve, timeout));
-// }
 
 const getLocationHandler = async () => {
   dispatch(LocalWeather.getLocationHandler())
@@ -80,9 +83,7 @@ const onButtonClicked = (name,temp,weather, data)=> {
 }
 }
 
-// useEffect(()=>{
-    
-//   },[])
+
 
 React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', e => {
@@ -98,146 +99,82 @@ React.useEffect(() => {
     return unsubscribe;
   }, [navigation]);
 
-//   const verifyPermissions = async () => {
-//     const result = await Location.requestForegroundPermissionsAsync();
-//     if (result.status !== 'granted') {
-//       Alert.alert(
-//         'Insufficient permissions!',
-//         'You need to grant location permissions to use this app.',
-//         [{ text: 'Okay' }]
-//       );
-//       return false;
-//     }
-//     return true;
-//   };
+  const ButtonHandler = (action) => {
+    switch(action){
+        case "bt_load_file":
+          LoadFile()
+            
+        return
 
-
-
-//   const getLocationHandler = async () => {
-//     const hasPermission = await verifyPermissions();
-//     console.log("Permision"+hasPermission)
-//     if (!hasPermission) {
-//       dispatch(LocalWeather.setErr(true))
-//       setIsFetching(false);
-//       return;
-//     }
-//     try {
-//       setIsFetching(true);
-//       const location = await Location.getCurrentPositionAsync({
-//         timeout: 5000
-//       });
-//         dispatch(LocalWeather.setPickedLocation(location.coords.latitude,location.coords.longitude))
-//       // setPickedLocation({
-//       //   lat: location.coords.latitude,
-//       //   lng: location.coords.longitude
-//       // });
-//       dispatch(LocalWeather.setErr(false))
-//     } catch (err) {
-//       Alert.alert(
-//         'Could not fetch location!',
-//         'Please try again later or pick a location on the map.',
-//         [{ text: 'Okay' }]
-//       );
-//       dispatch(LocalWeather.setErr(true))
-//     }
-//     setIsFetching(false);
-//   };
-  
-
-
-//   useEffect(()=>{
-//     getLocationHandler()
-//   },[])
-
-
-
-//   useEffect(()=>{
-//     if(lat!=0&&lng!=0){
-      
-//       dispatch(LocalWeather.FetchCityName(lat,lng))
-//     dispatch(LocalWeather.FetchCitySearch(lat,lng))
-//     }
-//   },[isFetching, load])
-
-
-
-
-//   const onRefresh = React.useCallback(() => {
-//     getLocationHandler()
-//   }, []);
+        default: return
+    }
+}
 
   
   return(
     <SafeAreaView style={styles.droidSafeArea}>
-            <ModalActivityIndicator show={isFetching||load} />
-            {
-              Error==false? 
-                <View style={{flex:1, paddingHorizontal:20,}}>
-              
-            <ScrollView
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
+      <ModalActivityIndicator show={isFetching||load} />
+      {
+        Error==false? 
+          <View style={{flex:1, paddingHorizontal:20,}}>
+        
+      {DailyList.length>0? 
+        <FlatList
+          data={DailyList}
+          keyExtractor={itemData => itemData.index}
+          renderItem={itemData => { 
+            // console.log("itemData FROM CONSOLE______________________________________")
+            // console.log(itemData)
+            return(
+              <CityList 
+                onButtonClicked={onButtonClicked}
+                name={itemData.item.dt} 
+                title={Title}
+                key={itemData.index+itemData.item.dt}
+                temp={itemData.item.temp}
+                weather={itemData.item.weather[0].main}
+                navigation={navigation}
               />
-            }
-            style={{flex:1}}>
-    
-            {DailyList.length>0? DailyList.map((item, key)=>{
-              
-                            return(
-                              
-                                <CityList 
-                              onButtonClicked={onButtonClicked}
-                                name={item.dt} 
-                                key={key+item.dt}
-                                title={Title}
-                                // loadWeather={props.LoadWeather}
-                                temp={item.temp}
-                                weather={item.weather[0].main}
-                                navigation={navigation}
-                              />
-                              
-                          
-                              
-                             
-                            )
-                          })
-                              
-                          :
-                          <Text>None</Text>
-               }
-            </ScrollView>
-            <FAB
-                                style={styles.fab}
-                                big
-                                icon="arrow-up" 
-                                onPress={() => LoadFile()}
-                              />
-               </View>
-            :
-            <View style={styles.ErrorBox}>
-            <View style={styles.circle} >
-             <IconErr 
-               height={Dimensions.get('window').width*0.14}
-               width={Dimensions.get('window').width*0.14}
-               style ={styles.IconErr}
-             />
-            </View>
-            <View style={styles.ErrorTitle}>
-                <Text style={styles.ErrorTitle}>Data is no avaliable</Text>
-            </View>
-            <View style={styles.ErrorSubString}>
-                <Text style={styles.ErrorSubString}>Cannot determine your current location</Text>
-            </View>
-            <TouchableOpacity style={styles.ErrorButton} onPress={getLocationHandler}>
-            <Text style={styles.ButtonTitle} >Allow acces</Text>
-            </TouchableOpacity>
-            
-           </View>
-            } 
+              )
+          }}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      :
+        <Text>None</Text>
+      }
+      <FloatingAction
+        actions={actions}
+        color={MyTheme.colors.border}
+        onPressItem={name => {
+            ButtonHandler(name);
+        //   console.log(`selected button: ${name}`);
+        }}
+      />
+          </View>
+      :
+      <View style={styles.ErrorBox}>
+      <View style={styles.circle} >
+        <IconErr 
+          height={Dimensions.get('window').width*0.14}
+          width={Dimensions.get('window').width*0.14}
+          style ={styles.IconErr}
+        />
+      </View>
+      <View style={styles.ErrorTitle}>
+          <Text style={styles.ErrorTitle}>Data is no avaliable</Text>
+      </View>
+      <View style={styles.ErrorSubString}>
+          <Text style={styles.ErrorSubString}>Cannot determine your current location</Text>
+      </View>
+      <TouchableOpacity style={styles.ErrorButton} onPress={getLocationHandler}>
+      <Text style={styles.ButtonTitle} >Allow acces</Text>
+      </TouchableOpacity>
+      
+      </View>
+      } 
            
-        </SafeAreaView>
+    </SafeAreaView>
     )
     }
     
@@ -293,24 +230,8 @@ React.useEffect(() => {
           right: 0,
           bottom: 0,
         },
-        CitiesBoxSt:{
-          flex:1,
-          // marginHorizontal: Dimensions.get('window').width*0.065,
-            // backgroundColor:"yellow",
-            // display:'flex',
-            flexDirection:'column',
-            justifyContent:'space-between',
-        },
-        CitiesBoxStr:{
-            justifyContent:'space-between',
-            flexDirection:'row',
-            // paddingBottom:Dimensions.get('window').width*0.019,
-            marginBottom:Dimensions.get('window').width*0.019,
-            // backgroundColor:'red'
-        },
-        SearchRes:{
-            fontSize:13
-        },
+        
+        
         ErrorBox:{
           flex:1,
           alignItems:'center',
@@ -366,4 +287,25 @@ React.useEffect(() => {
       
        
       });
+
+      // DailyList.map((item, key)=>{
+              
+      //   return(
+          
+      //       <CityList 
+      //     onButtonClicked={onButtonClicked}
+      //       name={item.dt} 
+      //       key={key+item.dt}
+      //       title={Title}
+      //       // loadWeather={props.LoadWeather}
+      //       temp={item.temp}
+      //       weather={item.weather[0].main}
+      //       navigation={navigation}
+      //     />
+          
+      
+          
+         
+      //   )
+      // })
 

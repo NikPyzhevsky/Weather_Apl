@@ -19,6 +19,7 @@ import moment, { deprecationHandler } from 'moment'
 import DetailScreen from "../DetailScreen"
 import { createStackNavigator } from '@react-navigation/stack';
 import { MyTheme } from '../../Theme/Theme';
+import { HourlyTabsTheme } from '../../navigation/NavigationOptions';
 
 
 
@@ -88,39 +89,7 @@ export default function DailyContainer({navigation}) {
 
 
     <Tab.Navigator
-      tabBarOptions={{
-        // activeTintColor: MyTheme.colors.primary,
-        labelStyle: {
-            textTransform: "uppercase",
-            // color:MyTheme.colors.backgroundColor,
-            
-        },
-        inactiveTintColor: MyTheme.colors.border,
-        // activeTintColor: MyTheme.colors.primary,
-        indicatorStyle: {
-            height: null,
-            top: '10%',
-            bottom: '10%',
-            width: '45%',
-            left: '2.5%',
-            borderRadius: 100,
-            backgroundColor: MyTheme.colors.border,
-        },
-        style: {
-            alignSelf: "center",
-            width: '55%',
-            borderRadius: 100,
-            borderColor: "blue",
-            backgroundColor: MyTheme.colors.primary,
-            elevation: 5, // shadow on Android
-            shadowOpacity: .10, // shadow on iOS,
-            shadowRadius: 4, // shadow blur on iOS
-        },
-        tabStyle: {
-            borderRadius: 100,
-            
-        },
-    }}
+      tabBarOptions={HourlyTabsTheme}
     swipeEnabled={true}
     >
       <Tab.Screen name="Today" component={Main} />
@@ -136,118 +105,9 @@ export default function DailyContainer({navigation}) {
 
 
 const styles = StyleSheet.create({
-  container: {
-    height: Dimensions.get('window').height*0.79,
-    // backgroundColor:'yellow',
-  //  height:'100%'
-    // flexDirection:'column',
-    // flexDirection:'column',
-    //   justifyContent:'flex-end',
-  },
-  droidSafeArea: {
-    // backgroundColor:"#E5E5E5",
-      flex: 1,
-      paddingTop: Platform.OS === 'android' ? 30 : 0,
-      backgroundColor:MyTheme.colors.background,
-
-      // justifyContent:'center',
-      // flexDirection:'column',
-      // justifyContent:'flex-end',
-  },
-  header:{
-    height: Dimensions.get('window').height*0.083,
-    // backgroundColor:'red',
-    justifyContent:'center',
-    paddingLeft: Dimensions.get('window').width*0.064,
-  },
   headerTitle:{
       fontSize:28,
       color:MyTheme.colors.primary
   },
-  CitiesBox:{
-      flex:1,
-      paddingHorizontal:Dimensions.get('window').width*0.064,
-      // marginTop:18,
-      // marginHorizontal: Dimensions.get('window').width*0.065,
-      // backgroundColor:"red",
-      // display:'flex',
-      flexDirection:'column',
-      // justifyContent:'space-between',
-      // position:'relative'
-      // flexDirection:'c',
-      // // backgroundColor: '#fff',
-      // alignItems: 'center',
-      // justifyContent: 'center',
-  },
-  CitiesBoxSt:{
-    flex:1,
-    // marginHorizontal: Dimensions.get('window').width*0.065,
-      // backgroundColor:"yellow",
-      // display:'flex',
-      flexDirection:'column',
-      justifyContent:'space-between',
-  },
-  CitiesBoxStr:{
-      justifyContent:'space-between',
-      flexDirection:'row',
-      // paddingBottom:Dimensions.get('window').width*0.019,
-      marginBottom:Dimensions.get('window').width*0.019,
-      // backgroundColor:'red'
-  },
-  SearchRes:{
-      fontSize:13
-  },
-  ErrorBox:{
-    flex:1,
-    alignItems:'center',
-    // justifyContent:'center',
-    // marginTop: Dimensions.get('window').height*0.18,
-    justifyContent:'center',
-    // backgroundColor:'orange'
-  },
-  circle: {
-    width:Dimensions.get('window').width*0.48,
-    height:Dimensions.get('window').width*0.48,
-    borderRadius: Dimensions.get('window').width*0.48 / 2,
-    backgroundColor: "#ececec",
-    // textAlign:'center',
-    // textAlignVertical: "center",textAlign: "center",
-    display:"flex",
-    alignItems:"center",
-    justifyContent:'center',
-    marginBottom:68,
-  },
-  IconErr:{
-    // textAlignVertical: "center",textAlign: "center"
-//     flexDirection: 'row',
-// alignItems: 'baseline',
-
-  },
-  ErrorTitle:{
-    fontSize:24,
-    display:"flex",
-    alignItems:"center",
-    justifyContent:'center',
-  },
-  ErrorSubString:{
-    marginTop:18,
-    fontSize:15,
-    marginBottom:34,
-    color:'#A4A4A4',
-  },
-  ErrorButton:{
-    backgroundColor:"black",
-    width:168,
-    height:48,
-    borderRadius:8,
-    alignItems:'center',
-    justifyContent:'center',
-    color:'white',
-  },
-  ButtonTitle:{
-    color:'white',
-    fontSize:15
-  }
-
  
 });

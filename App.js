@@ -20,7 +20,7 @@ import ReduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Notifications } from 'react-native-notifications';
 import UserInactivity from 'react-native-user-inactivity';
-
+import {MyTransition} from "./navigation/NavigationOptions"
 
 
 const Stack = createStackNavigator();
@@ -45,69 +45,9 @@ export default function App() {
   
 // const dispatch = useDispatch()
 const [active, setActive] = useState(true);
-	const [timer, setTimer] = useState(10000);
+	const [timer, setTimer] = useState(60000);
   
   
-  
-  const MyTransition = {
-      ...DefaultTheme,
-      colors: {
-        ...DefaultTheme.colors,
-        background: MyTheme.colors.background,
-        primary:  MyTheme.colors.primary,
-        card: MyTheme.colors.card,
-        text: MyTheme.colors.text,
-        border: MyTheme.colors.border,
-        notification: MyTheme.colors.notification,
-      },
-
-    gestureDirection: 'horizontal',
-    gestureResponseDistance: {
-      horizontal: Dimensions.get('window').width
-    },
-    transitionSpec: {
-      open: TransitionSpecs.TransitionIOSSpec,
-      close: TransitionSpecs.TransitionIOSSpec,
-    },
-    headerStyleInterpolator: HeaderStyleInterpolators.forFade,
-    cardStyleInterpolator: ({ current, next, layouts }) => {
-      return {
-        cardStyle: {
-          transform: [
-            {
-              translateX: current.progress.interpolate({
-                inputRange: [0, 1],
-                outputRange: [layouts.screen.width, 0],
-              }),
-            },
-            {
-              rotate: current.progress.interpolate({
-                inputRange: [0, 1],
-                outputRange: ["45deg", "0deg"],
-              }),
-            },
-            {
-              scale: next
-                ? next.progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [1, 1],
-                  })
-                : 1,
-            },
-          ],
-        },
-        containerStyle : {
-          opacity: current.progress.interpolate({
-            inputRange: [0, 0.5],
-            outputRange: [0, 1],
-          }),
-        },
-      };
-    },
-  };
-
-
-
 
   return (
       
@@ -193,11 +133,3 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
   }
 });
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <MyTabs />
-//     </NavigationContainer>
-//   );
-// }

@@ -15,10 +15,16 @@ export default function ListOfResults(props) {
 
       const ErrorBox = () =>(
         <View style={styles.ErrorBox}>
-         <View style={styles.circle} >
+         <View style={{
+           ...styles.circle,
+           width:Dimensions.get('window').height*0.25 ,
+           height:Dimensions.get('window').height*0.25,
+           borderRadius: Dimensions.get('window').height*0.25 / 2,
+           marginBottom: Dimensions.get('window').height*0.05
+         }} >
           <IconErr 
-            height={100}
-            width={100}
+            height={Dimensions.get('window').height*0.15}
+            width={Dimensions.get('window').height*0.15}
             style ={styles.IconErr}
           />
          </View>
@@ -78,7 +84,7 @@ export default function ListOfResults(props) {
       justifyContent: 'center',
       // marginVertical: 8,
       // marginHorizontal: 16,
-      padding: 20,
+      // padding: 20,
     },
     title: {
       fontSize: 32,
@@ -88,7 +94,7 @@ export default function ListOfResults(props) {
       alignItems:'center',
       justifyContent:'center',
       // marginTop: Dimensions.get('window').height*0.18,
-      // backgroundColor:'orange'
+      backgroundColor:'orange'
     },
     ErrorBox:{
       flex:1,
@@ -99,16 +105,14 @@ export default function ListOfResults(props) {
       // backgroundColor:'orange'
     },
     circle: {
-      width:Dimensions.get('window').width*0.48,
-      height:Dimensions.get('window').width*0.48,
-      borderRadius: Dimensions.get('window').width*0.48 / 2,
+      
       backgroundColor: MyTheme.colors.border,
       // textAlign:'center',
       // textAlignVertical: "center",textAlign: "center",
       display:"flex",
       alignItems:"center",
       justifyContent:'center',
-      marginBottom:68,
+      // marginBottom:68,
     },
     IconErr:{
       // textAlignVertical: "center",textAlign: "center"
@@ -124,9 +128,9 @@ export default function ListOfResults(props) {
       color:MyTheme.colors.primary
     },
     ErrorSubString:{
-      marginTop:18,
+      // marginTop:18,
       fontSize:15,
-      marginBottom:34,
+      // marginBottom:34,
       color:MyTheme.colors.subText,
     },
     ErrorButton:{
