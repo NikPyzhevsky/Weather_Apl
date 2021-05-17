@@ -71,7 +71,7 @@ export const HourlyTabsTheme =
             // color:MyTheme.colors.backgroundColor,
             
         },
-        inactiveTintColor: MyTheme.colors.border,
+        inactiveTintColor: MyTheme.colors.background,
         // activeTintColor: MyTheme.colors.primary,
         indicatorStyle: {
             height: null,
@@ -80,7 +80,7 @@ export const HourlyTabsTheme =
             width: '45%',
             left: '2.5%',
             borderRadius: 100,
-            backgroundColor: MyTheme.colors.border,
+            backgroundColor: MyTheme.colors.background,
         },
         style: {
             alignSelf: "center",

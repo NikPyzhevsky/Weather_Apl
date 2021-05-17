@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         paddingLeft:5,
         alignItems:'center',
         flexDirection:'row',
-        backgroundColor: MyTheme.colors.primary
+        backgroundColor: MyTheme.colors.background
         
     },
     InputCont:{

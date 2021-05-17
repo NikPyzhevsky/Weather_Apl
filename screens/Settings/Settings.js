@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MyTheme } from '../../Theme/Theme';
 import { FloatingAction } from "react-native-floating-action";
 import * as ImagePick from '../../store/actions/ImagePick';
+import { StatusBar } from 'react-native';
 
 
 const actions = [
@@ -22,7 +23,7 @@ const actions = [
       name: "bt_cam",
       position: 2,
       color:MyTheme.colors.border,
-      textColor: MyTheme.colors.text,
+      textColor: MyTheme.colors.background,
       textBackground: MyTheme.colors.border,
     //   overlayColor: 'rgba(255, 255, 255, 0.6)',  
     },
@@ -32,7 +33,7 @@ const actions = [
       color:MyTheme.colors.border,
       name: "bt_galley_load",
       position: 1,
-      textColor: MyTheme.colors.text,
+      textColor: MyTheme.colors.background,
       textBackground: MyTheme.colors.border,
     },
     {
@@ -41,7 +42,7 @@ const actions = [
       color:MyTheme.colors.border,
       name: "bt_color_change",
       position: 3,
-      textColor: MyTheme.colors.text,
+      textColor: MyTheme.colors.background,
       textBackground: MyTheme.colors.border,
     },
   ];
@@ -49,6 +50,8 @@ const actions = [
 
 const window = Dimensions.get("window");
 const width =  window.width> window.height?  window.height: window.width
+
+
 const Carousel = () => {
 
   const xScroll = useRef(new Animated.Value(0)).current;
@@ -128,7 +131,37 @@ const Carousel = () => {
 
   return (
     <View style={style.container}>
-
+        <View style={StyleSheet.absoluteFillObject}>  
+          {
+            images.map((image,index)=>{
+              const inputRange=[
+                (index-1) * width,
+                index*width,
+                (index+1)*width
+              ]
+              const opacity = xScroll.interpolate({
+                inputRange,
+                outputRange:[0,1,0]
+              })
+              
+              return(
+                <Animated.Image
+                  source={{uri: image.uri}}
+                  key={'image-'+index}
+                  style={[
+                    StyleSheet.absoluteFillObject,
+                    {
+                      opacity,
+                      
+                      // scale:scale,
+                    }
+                  ]}
+                  blurRadius={10}
+                />
+              )
+            })
+          }
+        </View>
       <Animated.FlatList
         style={{...style.flatList}
         // ,{
@@ -141,6 +174,7 @@ const Carousel = () => {
         data={images}
         horizontal
         showsHorizontalScrollIndicator={false}
+        snapToAlignment={"start"}
         snapToInterval={width}
         decelerationRate={'fast'}
         keyExtractor={(_, index) => index.toString()}
@@ -155,19 +189,41 @@ const Carousel = () => {
             (index + 1) * width,
           ];
           const outputRange = ['-90deg', '0deg', '90deg'];
+          const scale = xScroll.interpolate({
+            inputRange,
+            outputRange:[0.75,1,0.75]
+          })
+
+          var scaleBox = xScroll.interpolate({
+            inputRange,
+            outputRange:[0.75,1,0.75]
+          })
+          
+          const proportion = window.width/window.height
+          window.width>window.height?
+             
+            scaleBox = xScroll.interpolate({
+              inputRange,
+              outputRange:[0.5*proportion,0.8*proportion,0.5*proportion]
+            })
+          
+          
+            : null
 
           const translateX = xScroll.interpolate({inputRange, outputRange});
 
           return (
-            <View style={{...style.imageContainer},{
+            <Animated.View style={{
                     width:width, 
                     height:  width - 150,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    borderColor:"red",
-                    borderWidth:2,
+                    // borderColor:"red",
+                    // borderWidth:2,
+                    // transform: [{scale:scaleBox}]
                   }
               }>
+                
               <Animated.Image
                 style={[{...style.image},
                   {
@@ -175,8 +231,12 @@ const Carousel = () => {
                   height: width - 150,
                   width: width - 150,
                   borderRadius: width/2,
+                  borderColor:MyTheme.colors.background,
+                    borderWidth:2,
                   },
-                   {transform: [{rotateZ: translateX},
+                   {transform: [
+                     {rotateZ: translateX},
+                      {scale:scale}
                     // {
                     //   scale: xScroll.interpolate({
                     //     inputRange: [0.5, 1],
@@ -190,7 +250,7 @@ const Carousel = () => {
                 }
                 source={{uri: item.uri}}
               />
-            </View>
+            </Animated.View>
           );
         }}
       />

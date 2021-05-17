@@ -1,29 +1,25 @@
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, HeaderStyleInterpolators, TransitionSpecs } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 // import LocationPicker from './screens/components/LocationPicker';
 import { Provider, useDispatch } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 // import { composeWithDevTools } from 'redux-devtools-extension';
+import AppNavigation from "./navigation/AppNavigations"
 
 import Cities from './store/reducers/Cities';
 import LocalWeather from './store/reducers/LocalWeather';
 import ImagePick from "./store/reducers/ImagePick"
 
 
-import MyTabs from './navigation/MainBottomTabs';
-import DetailsScreen, { screenOptions } from './screens/DetailScreen';
 
-import { MyTheme } from './Theme/Theme';
+
 import ReduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Notifications } from 'react-native-notifications';
 import UserInactivity from 'react-native-user-inactivity';
-import {MyTransition} from "./navigation/NavigationOptions"
+import { StatusBar } from 'react-native';
 
 
-const Stack = createStackNavigator();
 
 const rootReducer = combineReducers({
   Cities: Cities,
@@ -50,8 +46,10 @@ const [active, setActive] = useState(true);
   
 
   return (
-      
+
         <Provider store={store}>
+                <StatusBar hidden/>
+
           {active ? (
 				<UserInactivity
 					isActive={active}
@@ -63,32 +61,12 @@ const [active, setActive] = useState(true);
 					skipKeyboard={false}
 					style={{ flex: 1 }}
 				>
-          <NavigationContainer theme={MyTheme} transitionerStyle={{backgroundColor: 'black'}}>
-     
-              <Stack.Navigator
-              
-                detachInactiveScreens={true}
-                screenOptions={{
-                  headerTransparent: true,
-                  cardOverlayEnabled: true,
-                  gestureEnabled: true,
-                  headerStyle:{backgroundColor:MyTheme.colors.background},
-                  // gestureDirection: "inverted",
-                  ...MyTransition,
-                }}
-                
-                
-              >
-              <Stack.Screen name="Home" component={MyTabs} options={{headerShown:null}}/>
-              <Stack.Screen name="Details" component={DetailsScreen} options={screenOptions} />
-              {/* <Stack.Screen name="Cities" component={CitiesScreen}/> */}
-            </Stack.Navigator>
-          </NavigationContainer>
+          <AppNavigation/>
 				</UserInactivity>
 			) : (
 				<View style={styles.InactivityContainer}>
-					<Text>You have been innactive for minute</Text>
-					<Text>Please restart the app</Text>
+					<Text style={{color:"yellow", fontSize:20}}>You have been innactive for minute</Text>
+					<Text style={{color:"yellow", fontSize:20}}>Please restart the app</Text>
 				</View>
 			)}
           

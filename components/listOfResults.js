@@ -8,31 +8,32 @@ import IconErr from './UI/IconErr'
 
 // import IconError from './UI/IconError'
 
+const ErrorBox = () =>(
+  <View style={styles.ErrorBox}>
+   <View style={{
+     ...styles.circle,
+     width:Dimensions.get('window').height*0.25 ,
+     height:Dimensions.get('window').height*0.25,
+     borderRadius: Dimensions.get('window').height*0.25 / 2,
+     marginBottom: Dimensions.get('window').height*0.05
+   }} >
+    <IconErr 
+      height={Dimensions.get('window').height*0.15}
+      width={Dimensions.get('window').height*0.15}
+      style ={styles.IconErr}
+    />
+   </View>
+   <View style={styles.ErrorTitle}>
+       <Text style={styles.ErrorTitle}>No data for <Text>{props.error}</Text></Text>
+   </View>
+  </View>
+)
 
 export default function ListOfResults(props) {
     // 
       
 
-      const ErrorBox = () =>(
-        <View style={styles.ErrorBox}>
-         <View style={{
-           ...styles.circle,
-           width:Dimensions.get('window').height*0.25 ,
-           height:Dimensions.get('window').height*0.25,
-           borderRadius: Dimensions.get('window').height*0.25 / 2,
-           marginBottom: Dimensions.get('window').height*0.05
-         }} >
-          <IconErr 
-            height={Dimensions.get('window').height*0.15}
-            width={Dimensions.get('window').height*0.15}
-            style ={styles.IconErr}
-          />
-         </View>
-         <View style={styles.ErrorTitle}>
-             <Text style={styles.ErrorTitle}>No data for <Text>{props.error}</Text></Text>
-         </View>
-        </View>
-      )
+      
 
     // console.log(props.listOfCities+"render")
     // console.log("error="+props.error);
